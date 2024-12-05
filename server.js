@@ -124,15 +124,21 @@ const listings = [
   },
 ];
 
-// Insert data into MongoDB
 async function populateDatabase() {
-  try {
-    await Listing.insertMany(listings);
-    console.log("Database populated successfully!");
-    mongoose.connection.close();
-  } catch (err) {
-    console.error("Error populating database:", err);
+    try {
+      // Clear the existing collection
+      await Listing.deleteMany({});
+      console.log("Existing listings cleared.");
+  
+      // Insert new listings
+      await Listing.insertMany(listings);
+      console.log("Database populated successfully!");
+  
+      mongoose.connection.close();
+    } catch (err) {
+      console.error("Error populating database:", err);
+    }
   }
-}
+  
 
 populateDatabase();
